@@ -7,13 +7,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_workshop/main.dart';
+import 'package:flutter_workshop/presentation/contoller/counter_controller.dart';
+import 'package:flutter_workshop/presentation/widget/home_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await _createWidget(tester);
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
@@ -27,4 +28,23 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+}
+
+Future<void> _createWidget(WidgetTester tester) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ChangeNotifierProvider<CounterController>(
+        create: (_) => CounterController(),
+        child: const HomePage(
+          title: "Test",
+        ),
+      ),
+    ),
+  );
+
+  await tester.pump();
 }
