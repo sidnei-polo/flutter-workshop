@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_workshop/presentation/contoller/counter_controller.dart';
+import 'package:flutter_workshop/presentation/contoller/device_controller.dart';
 import 'package:flutter_workshop/presentation/widget/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -37,8 +37,8 @@ Future<void> _createWidget(WidgetTester tester) async {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ChangeNotifierProvider<CounterController>(
-        create: (_) => CounterController(),
+      home: ChangeNotifierProvider<DevicesController>(
+        create: (_) => DevicesController(),
         child: const HomePage(
           title: "Test",
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_workshop/presentation/contoller/counter_controller.dart';
+import 'package:flutter_workshop/presentation/contoller/devices_controller.dart';
 import 'package:flutter_workshop/presentation/contoller/navigation_controller.dart';
 import 'package:flutter_workshop/presentation/widget/home_page.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 class Application extends StatelessWidget {
   const Application({Key? key}) : super(key: key);
 
+  @override
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class Application extends StatelessWidget {
       home: Navigator(
         pages: [
           MaterialPage(
-            child: ChangeNotifierProvider<CounterController>(
-                create: (_) => CounterController(),
+            child: ChangeNotifierProvider<DevicesController>(
+                create: (_) => DevicesController()..fetch(),
                 child: const HomePage(title: "Home Page")),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_workshop/presentation/contoller/counter_controller.dart';
+import 'package:flutter_workshop/presentation/contoller/devices_controller.dart';
+import 'package:flutter_workshop/presentation/widget/device_item.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,36 +10,22 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var count = context.watch<CounterController>().value;
+    var state = context.watch<DevicesController>().value;
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 350),
-          height: count % 2 == 1 ? 100 : 200,
-          color: Colors.amber,
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
+      body: state.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: () =>
+                  context.read<DevicesController>().fetch(setLoading: false),
+              child: ListView.builder(
+                itemCount: state.devices.length,
+                itemBuilder: (context, index) =>
+                    DeviceItem(device: state.devices[index]),
               ),
-              Text(
-                '$count',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<CounterController>().add(),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+            ),
     );
   }
 }
